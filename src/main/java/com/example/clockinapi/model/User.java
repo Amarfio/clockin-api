@@ -10,6 +10,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name="userId")
+    private String userid;
+
     @Column(name="firstName")
     private String firstname;
 
@@ -60,6 +63,12 @@ public class User {
 
     @Column(name="macAddress")
     private String macaddress;
+
+    @Column(name="updatedby")
+    private String updatedby;
+
+    @Column(name="updatingdate")
+    private String updatingdate;
 
     //default constructor
     public User(){
@@ -229,5 +238,29 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getUpdatedby() {
+        return updatedby;
+    }
+
+    public void setUpdatedby(String updatedby) {
+        this.updatedby = updatedby;
+    }
+
+    public String getUpdatingdate() {
+        return updatingdate;
+    }
+
+    public void setUpdatingdate(String updatingdate) {
+        this.updatingdate = updatingdate;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }
