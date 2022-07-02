@@ -1,6 +1,10 @@
 package com.example.clockinapi.model;
 
+import org.apache.tomcat.jni.Local;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -31,10 +35,10 @@ public class Clockin {
     private Date date;
 
     @Column(name="checkintime")
-    private String checkintime;
+    private LocalTime checkintime;
 
     @Column(name="checkouttime")
-    private String checkouttime;
+    private LocalTime checkouttime;
 
     @Column(name="postingip")
     private String postingip;
@@ -53,7 +57,7 @@ public class Clockin {
     }
 
     //constructor to check in user
-    public Clockin(String userid, String firstname, String othername, String lastname, String groupname, Date date, String checkintime, String postingip, String macaddress){
+    public Clockin(String userid, String firstname, String othername, String lastname, String groupname, Date date, LocalTime checkintime, String postingip, String macaddress){
             this.setUserid(userid);
             this.setFirstname(firstname);
             this.setOthername(othername);
@@ -67,7 +71,7 @@ public class Clockin {
     }
 
     //constructor to check out user
-    public Clockin(String checkouttime){
+    public Clockin(LocalTime checkouttime){
         this.setCheckouttime(checkouttime);
         this.setUpdated_at(new Date());
     }
@@ -128,19 +132,19 @@ public class Clockin {
         this.date = date;
     }
 
-    public String getCheckintime() {
+    public LocalTime getCheckintime() {
         return checkintime;
     }
 
-    public void setCheckintime(String checkintime) {
+    public void setCheckintime(LocalTime checkintime) {
         this.checkintime = checkintime;
     }
 
-    public String getCheckouttime() {
+    public LocalTime getCheckouttime() {
         return checkouttime;
     }
 
-    public void setCheckouttime(String checkouttime) {
+    public void setCheckouttime(LocalTime checkouttime) {
         this.checkouttime = checkouttime;
     }
 

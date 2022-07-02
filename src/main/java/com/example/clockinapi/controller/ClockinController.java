@@ -5,13 +5,16 @@ import com.example.clockinapi.exception.ResourceNotFoundException;
 import com.example.clockinapi.model.Clockin;
 import com.example.clockinapi.model.User;
 import com.example.clockinapi.repository.ClockinRepository;
+import com.example.clockinapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -20,6 +23,9 @@ public class ClockinController {
 
     @Autowired
     private ClockinRepository clockinRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     //get clockins: get all the clockin records saved in the database
     @GetMapping("/clockins")
@@ -34,5 +40,26 @@ public class ClockinController {
         return ResponseEntity.ok().body(clockin);
     }
 
-    //
+//    @PostMapping("/users")
+//    public User createUser(@RequestBody User user){
+//        user.setUserid(generateUserId());
+//        return this.userRepository.save(user);
+//    }
+    //post clockin details using the check in method
+    @PostMapping("/checkin")
+    public Clockin userCheckIn(@RequestParam String userid){
+        User user = userRepository.findByUserid(userid);
+        Clockin checkindetails = new Clockin();
+
+        checkindetails.setUserid(user.getUserid());
+        checkindetails.setFirstname(user.getFirstname());
+        checkindetails.setOthername(user.getOthername());
+        checkindetails.setLastname(user.getLastname());
+        checkindetails.setGroupname(user.getGroupname());
+        checkindetails.setDate(new Date());
+        checkindetails.setCheckintime(LocalTime.now());
+
+        return this.clockinRepository.save(checkindetails);
+    }
+
 }
