@@ -3,6 +3,7 @@ package com.example.clockinapi.model;
 import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
@@ -32,7 +33,7 @@ public class Clockin {
     private String groupname;
 
     @Column(name="date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name="checkintime")
     private LocalTime checkintime;
@@ -47,17 +48,17 @@ public class Clockin {
     private String macaddress;
 
     @Column(name="created_at")
-    private Date created_at;
+    private LocalDateTime created_at;
 
     @Column(name="update_at")
-    private Date updated_at;
+    private LocalDateTime updated_at;
 
     public Clockin(){
 
     }
 
     //constructor to check in user
-    public Clockin(String userid, String firstname, String othername, String lastname, String groupname, Date date, LocalTime checkintime, String postingip, String macaddress){
+    public Clockin(String userid, String firstname, String othername, String lastname, String groupname, LocalDate date, LocalTime checkintime, String postingip, String macaddress){
             this.setUserid(userid);
             this.setFirstname(firstname);
             this.setOthername(othername);
@@ -67,13 +68,13 @@ public class Clockin {
             this.setCheckintime(checkintime);
             this.setPostingip(postingip);
             this.setMacaddress(macaddress);
-            this.setCreated_at(new Date());
+            this.setCreated_at(LocalDateTime.now());
     }
 
     //constructor to check out user
     public Clockin(LocalTime checkouttime){
         this.setCheckouttime(checkouttime);
-        this.setUpdated_at(new Date());
+        this.setUpdated_at(LocalDateTime.now());
     }
 
     public long getId() {
@@ -124,11 +125,11 @@ public class Clockin {
         this.groupname = groupname;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -164,19 +165,19 @@ public class Clockin {
         this.macaddress = macaddress;
     }
 
-    public Date getCreated_at() {
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
     }
 
-    public Date getUpdated_at() {
+    public LocalDateTime getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(Date updated_at) {
+    public void setUpdated_at(LocalDateTime updated_at) {
         this.updated_at = updated_at;
     }
 }

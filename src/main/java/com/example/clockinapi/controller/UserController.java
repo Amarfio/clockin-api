@@ -1,9 +1,13 @@
 package com.example.clockinapi.controller;
 
+import com.example.clockinapi.EmailSenderService;
 import com.example.clockinapi.exception.ResourceNotFoundException;
 import com.example.clockinapi.model.User;
 import com.example.clockinapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +27,25 @@ public class UserController {
         return this.userRepository.findAll();
     }
 
+    //set up for sending email
+    @Autowired
+    EmailSenderService senderService;
+
+    //method to set up and send email
+    public void sendNewUserEmail(String toEmail, String userid){
+
+            //commented for debugging purposes
+            // toEmail = "joshuaamarfio1@gmail.com";
+
+            //subject of the email
+            String subject="Welcome To The ClockIn System";
+
+            //message of the email
+            String body = "Your details has been duly added to the clockin system. Your new id to check in is: "+userid;
+            senderService.sendEmail(toEmail, subject, body);
+    }
+
+
     //get user details by id : get a particular user details by the specified id
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable(value="id") Long userId) throws ResourceNotFoundException {
@@ -33,7 +56,19 @@ public class UserController {
     //save user: post new user details
     @PostMapping("/users")
     public User createUser(@RequestBody User user){
-        user.setUserid(generateUserId());
+        //get user id
+        String userid = generateUserId();
+
+        //get user email
+        String useremail = user.getEmail();
+
+        //for saving to the database
+        user.setUserid(userid);
+
+        //method for sending the email
+        sendNewUserEmail(useremail, userid);
+
+        //save details in the database
         return this.userRepository.save(user);
     }
 
